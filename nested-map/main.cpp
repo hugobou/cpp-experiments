@@ -65,6 +65,10 @@ public:
 		return pix;
 	}
 
+	void setValue(int plane, int section, int row, int pos, int val) {
+        this->getPlane(plane).getSection(section).getRow(row).setValue(pos, val);
+	}
+
 private:
 	map<int, Plane> set;
 };
@@ -77,6 +81,7 @@ Set fillValues(void) {
 
 	Set set;
 
+#if 0
 	for (int p = 0; p < planesPerSet; p++) {
 		Plane plane;
 		for (int s = 0; s < sectionsPerPlane; s++) {
@@ -92,6 +97,17 @@ Set fillValues(void) {
 		}
 		set.setPlane(p, plane);
 	}
+#else
+	for (int p = 0; p < planesPerSet; p++) {
+		for (int s = 0; s < sectionsPerPlane; s++) {
+			for (int r = 0; r < rowsPerSection; r++) {
+				for (int x = 0; x < ValuesPerRow; x++) {
+					set.setValue(p, s, r, x, p * 90000 + s * 1000 + r * 100 + x);
+				}
+			}
+		}
+	}
+#endif
 
 	return set;
 }
